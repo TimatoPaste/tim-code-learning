@@ -131,7 +131,7 @@ bool validMove(string move){
 }
 
 int* moveToCoord(string move){
-    static int coord_array[2];
+    int coord_array[2];
     for(int coord = 0;coord<2;coord++){
         for(int valid = 0;valid<3;valid++){
             if(move[coord]==valid_coord[valid]){
