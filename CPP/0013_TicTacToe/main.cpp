@@ -11,14 +11,17 @@ using std::string;
 void printBoard(char board[3][3]);
 bool validMove(string move);
 int* moveToCoord(string move);
+int checkHorizontalWin(char board[3][3]);
+int checkVerticalWin(char board[3][3]);
+int checkDiagonalWin(char board[3][3]);
+int checkWin(char board[3][3]);
 
+string winner;
 string p1_name;
 string p2_name;
 string current_player;
 char current_mark;
 string player_move;
-
-
 
 int main(){
     cout<<"player 1, please enter your name:";
@@ -36,26 +39,40 @@ int main(){
     current_player = p1_name;
     current_mark = 'X';
 
+    //main loop
     while(true){
         printBoard(board);
         
         cout<<current_player<<", please make your move:";
         getline(cin, player_move);
-        while(!validMove(player_move)){
+        int* move_coord = moveToCoord(player_move);
+
+        while(!validMove(player_move) || board[move_coord[0]][move_coord[1]] != '-'){
             cout<<"invalid move! please use the a-c coordinates, aa being top left and cc being bottom right:\n";
             getline(cin, player_move);
+            move_coord = moveToCoord(player_move);
         }
-        
-        /////////////////////////////////////////////// you were trying to do move array and making the actual move
-        if(current_player == p1_name){
-            current_player = p2_name;
-            current_mark = 'O';
+
+        board[move_coord[0]][move_coord[1]] = current_mark;
+
+        int win_num = checkWin(board);
+        if(win_num != -1){
+            if(win_num == 1){
+                winner = p1_name;
+            }
+            else{
+                winner = p2_name;
+            }
+            break;
         }
-        else{
-            current_player = p1_name;
-            current_mark = 'X';
-        }
+
+        //switch players
+        current_player = (current_player == p1_name) ? p2_name : p1_name;
+        current_mark = current_mark == 'X' ? 'O' : 'X';
     }
+    cout<<"\n\n";
+    printBoard(board);
+    cout<<"Game ended! The winner is: "<<winner<<"!!!";
     return 0;
 }
 
@@ -102,21 +119,75 @@ bool validMove(string move){
     return false;
 }
 
-//changes move format to array of indices
-int* movetoCoord(string move){
-    int coord_array[2];
+int* moveToCoord(string move){
+    static int coord_array[2];
     for(int coord = 0;coord<2;coord++){
-            for(int valid = 0;valid<3;valid++){
-                switch(coord){
-                    case 0:
-                        coord_array[0] = valid;
-                        break;
-                    case 1:
-                        coord_array[1] = valid;
-                        break;
-                    default:
+        for(int valid = 0;valid<3;valid++){
+            if(move[coord]==valid_coord[valid]){
+                if(coord == 0){
+                    coord_array[0] = valid;
+                }
+                else{
+                    coord_array[1] = valid;
                 }
             }
         }
-    return coord_array;//returns a pointer to the coord_array
+    }
+    return coord_array;
+}
+
+//returns row of the winning horizontal chain
+int checkHorizontalWin(char board[3][3]){
+    for(int row = 0;row<3;row++){
+        if(board[row][0] != '-'){
+            if(board[row][0] == board[row][1] && board[row][0] == board[row][2]){
+                return row;
+            }
+        }
+    }
+    return -1;
+}
+
+//returns column of the winning vertical chain
+int checkVerticalWin(char board[3][3]){
+    for(int column = 0;column<3;column++){
+        if(board[0][column] != '-'){
+            if(board[0][column] == board[1][column] && board[0][column] == board[2][column]){
+                return column;
+            }
+        }
+    }
+    return -1;
+}
+
+//returns column of the top mark of the winning diagonal chain
+int checkDiagonalWin(char board[3][3]){
+    if(board[0][0] != '-'){
+        if(board[0][0] == board[1][1] && board[0][0] == board[2][2]){
+            return 0;
+        }
+    }
+    else if(board[0][2] != '-'){
+        if(board[0][2] == board[1][1] && board[0][2] == board[2][0]){
+            return 2;
+        }
+    }
+    return -1;
+}
+
+//returns number of the player that won
+int checkWin(char board[3][3]){
+    int hor = checkHorizontalWin(board);
+    int ver = checkVerticalWin(board);
+    int dia = checkDiagonalWin(board);
+    if(hor != -1){
+        return (board[hor][0] == 'X') ? 1 : 2;
+    }
+    else if(ver != -1){
+        return (board[0][ver] == 'X') ? 1 : 2;
+    }
+    else if(dia != -1){
+        return (board[0][dia] == 'X') ? 1 : 2;
+    }
+    return -1;
 }
