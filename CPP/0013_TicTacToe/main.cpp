@@ -11,6 +11,7 @@ using std::string;
 void printBoard(char board[3][3]);
 bool validMove(string move);
 int* moveToCoord(string move);
+bool boardFull(char board[3][3]);
 int checkHorizontalWin(char board[3][3]);
 int checkVerticalWin(char board[3][3]);
 int checkDiagonalWin(char board[3][3]);
@@ -60,8 +61,11 @@ int main(){
             if(win_num == 1){
                 winner = p1_name;
             }
-            else{
+            else if(win_num == 2){
                 winner = p2_name;
+            }
+            else{
+                winner = "tie";
             }
             break;
         }
@@ -72,7 +76,14 @@ int main(){
     }
     cout<<"\n\n";
     printBoard(board);
-    cout<<"Game ended! The winner is: "<<winner<<"!!!";
+
+    cout<<"Game ended! ";    
+    if(winner == "tie"){
+        cout<<"It was a tie!!!";
+    }
+    else{
+        cout<<"The winner is: "<<winner<<"!!!";
+    }
     return 0;
 }
 
@@ -136,6 +147,16 @@ int* moveToCoord(string move){
     return coord_array;
 }
 
+bool boardFull(char board[3][3]){
+    for(int r = 0;r<3;r++){
+        for(int c = 0;c<3;c++){
+            if(board[r][c] == '-'){
+                return false;
+            }
+        }
+    }
+    return true;
+}
 //returns row of the winning horizontal chain
 int checkHorizontalWin(char board[3][3]){
     for(int row = 0;row<3;row++){
@@ -188,6 +209,9 @@ int checkWin(char board[3][3]){
     }
     else if(dia != -1){
         return (board[0][dia] == 'X') ? 1 : 2;
+    }
+    else if(boardFull(board)){
+        return 3;
     }
     return -1;
 }
