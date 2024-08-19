@@ -13,7 +13,7 @@ int main(){
 }
 
 int* returnIntArray(){
-    static int apple[5];//has to be static because that will make it last until the program ends rather than until this function ends (i think)
+    static int apple[5];//need static so that the array will stay and not get cleaned at the end of function
     for(int a = 0;a<5;a++){
         apple[a] = a;
     }

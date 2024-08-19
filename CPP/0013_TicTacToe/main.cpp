@@ -56,23 +56,25 @@ int main(){
 
         board[move_coord[0]][move_coord[1]] = current_mark;
 
-        int win_num = checkWin(board);
-        if(win_num != -1){
-            if(win_num == 1){
-                winner = p1_name;
-            }
-            else if(win_num == 2){
-                winner = p2_name;
-            }
-            else{
-                winner = "tie";
-            }
-            break;
-        }
-
         //switch players
         current_player = (current_player == p1_name) ? p2_name : p1_name;
         current_mark = current_mark == 'X' ? 'O' : 'X';
+
+        //checking for win
+        int win_num = checkWin(board);
+        if(win_num == -1){
+            continue;
+        }
+        else if(win_num == 1){
+            winner = p1_name;
+        }
+        else if(win_num == 2){
+            winner = p2_name;
+        }
+        else{
+            winner = "tie";
+        }
+        break;
     }
     cout<<"\n\n";
     printBoard(board);
@@ -91,18 +93,17 @@ void printBoard(char board[3][3]){
     for(int r = 0;r<3;r++){
         cout<<"   |   |\n";
         for(int c = 0;c<3;c++){
-            if(c == 2){
-                cout<<" "<<board[r][c];
-                if(r == 2){
-                    cout<<"\n   |   |   ";
-                }
-                else{
-                    cout<<"\n___|___|___";
-                }
+            if(c != 2){
+                cout<<" "<<board[r][c]<<" |";
+                continue;
+            }
+            cout<<" "<<board[r][c];
+            if(r == 2){
+                cout<<"\n   |   |   ";
             }
             else{
-                cout<<" "<<board[r][c]<<" |";
-            }
+                cout<<"\n___|___|___";
+            }  
         }
         cout<<"\n";
     }
@@ -113,34 +114,33 @@ bool validMove(string move){
     if(move.length() != 2){
         return false;
     }
-    else{
-        int valid = 0;
-        for(char move_coord : move){
-            for(char val_coord : valid_coord){
-                if(move_coord == val_coord){
-                    valid++;
-                    break;
-                }
+    int valid = 0;
+    for(char move_coord : move){
+        for(char val_coord : valid_coord){
+            if(move_coord == val_coord){
+                valid++;
+                break;
             }
         }
-        if(valid == 2){
-            return true;
-        }
+    }
+    if(valid == 2){
+        return true;
     }
     return false;
 }
 
 int* moveToCoord(string move){
-    int coord_array[2];
+    int static coord_array[2]; //static makes sure that array stays
     for(int coord = 0;coord<2;coord++){
         for(int valid = 0;valid<3;valid++){
-            if(move[coord]==valid_coord[valid]){
-                if(coord == 0){
-                    coord_array[0] = valid;
-                }
-                else{
-                    coord_array[1] = valid;
-                }
+            if(move[coord] != valid_coord[valid]){
+                continue;
+            }
+            else if(coord == 0){
+                coord_array[0] = valid;
+            }
+            else{
+                coord_array[1] = valid;
             }
         }
     }
@@ -160,10 +160,11 @@ bool boardFull(char board[3][3]){
 //returns row of the winning horizontal chain
 int checkHorizontalWin(char board[3][3]){
     for(int row = 0;row<3;row++){
-        if(board[row][0] != '-'){
-            if(board[row][0] == board[row][1] && board[row][0] == board[row][2]){
-                return row;
-            }
+        if(board[row][0] == '-'){
+            continue;
+        }
+        else if(board[row][0] == board[row][1] && board[row][0] == board[row][2]){
+            return row;
         }
     }
     return -1;
@@ -172,10 +173,11 @@ int checkHorizontalWin(char board[3][3]){
 //returns column of the winning vertical chain
 int checkVerticalWin(char board[3][3]){
     for(int column = 0;column<3;column++){
-        if(board[0][column] != '-'){
-            if(board[0][column] == board[1][column] && board[0][column] == board[2][column]){
-                return column;
-            }
+        if(board[0][column] == '-'){
+            continue;
+        }
+        else if(board[0][column] == board[1][column] && board[0][column] == board[2][column]){
+            return column;
         }
     }
     return -1;
@@ -183,15 +185,11 @@ int checkVerticalWin(char board[3][3]){
 
 //returns column of the top mark of the winning diagonal chain
 int checkDiagonalWin(char board[3][3]){
-    if(board[0][0] != '-'){
-        if(board[0][0] == board[1][1] && board[0][0] == board[2][2]){
-            return 0;
-        }
+    if(board[0][0] != '-' && board[0][0] == board[1][1] && board[0][0] == board[2][2]){
+        return 0;
     }
-    else if(board[0][2] != '-'){
-        if(board[0][2] == board[1][1] && board[0][2] == board[2][0]){
-            return 2;
-        }
+    else if(board[0][2] != '-' && board[0][2] == board[1][1] && board[0][2] == board[2][0]){
+        return 2;
     }
     return -1;
 }
