@@ -63,7 +63,7 @@ int main(){
         //checking for win
         int win_num = checkWin(board);
         if(win_num == -1){
-            continue;
+            continue;//continue or return statements or anything that stops flow will allow you to de-nest if-statements ahead by flipping conditions
         }
         else if(win_num == 1){
             winner = p1_name;
