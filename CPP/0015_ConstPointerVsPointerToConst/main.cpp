@@ -19,4 +19,6 @@ int main(){
 
     //const is before and after asterisk so this is a constant pointer to a constant int.
     const int* const savings_ptr3 = &savings2;
+
+    //tldr if const is before the name, it modifies the pointer. if behind the type, it modifies the value
 }
