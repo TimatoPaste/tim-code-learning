@@ -15,7 +15,10 @@ int main(){
     cout<<savings<<"\n";
     cout<<*savings_pointer;
 
-    //also make sure dereference happens first. sometimes other operations will go first and create error (*pointer).thing() instead of *pointer.thing()
-
+    //also make sure dereference happens first. sometimes other operations will go first and create error 
+    //(*pointer).thing() instead of *pointer.thing()
+    //arrow operator truncates that:
+    //(*pointer).thing() is the same as pointer->thing()
+    //arrow replaces the (* ).
     return 0;
 }
