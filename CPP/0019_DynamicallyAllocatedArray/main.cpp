@@ -30,7 +30,7 @@ int main(){
         cout << lottery_tickets_ptr[a] << "\n";
     }
     cout << "\n";
-    //remember to free the heap memory after done using
+    //remember to free the heap memory after done using (delete[] is used for heap arrays while delete is used for other types in heap)
     delete[] lottery_tickets_ptr;
     //also fix dangling ptr
     lottery_tickets_ptr = nullptr;

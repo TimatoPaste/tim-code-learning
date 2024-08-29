@@ -13,8 +13,8 @@ int main(){
 }
 
 int* returnIntArray(){
-    int apple[5];//need static so that the array will stay and not get cleaned at the end of function. can also make heap array instead. see next part for example
-    for(int a = 0;a<5;a++){
+    static int apple[5];//need static so that the array will stay and not get cleaned at the end of function. can also make heap array instead. see next part for example
+    for(int a = 0;a<5;a++){//what static keyword does: https://www.w3schools.com/cpp/ref_keyword_static.asp#:~:text=The%20static%20keyword%20is%20a,all%20instances%20of%20the%20class.
         apple[a] = a;
     }
     return apple;//array is returned as a pointer

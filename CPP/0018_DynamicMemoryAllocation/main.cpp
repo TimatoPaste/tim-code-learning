@@ -13,7 +13,7 @@ int main(){
     cout << &savings << " " << savings << "\n";
 
 
-    int* savingsPtr = new int;//new keyword allocates memory on the heap. access it with a pointer
+    int* savingsPtr = new int;//new keyword allocates memory on the heap and returns the memory address. access it with a pointer
     //pointer is created on stack, but the address it is pointing to is on the heap
     *savingsPtr = 50000;
 
