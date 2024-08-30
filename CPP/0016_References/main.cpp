@@ -25,9 +25,9 @@ int main(){
         cout<<apple;
     }
 
-    to save memory and computation time, we can instead just use the reference to those values
+    to save memory and computation time, we can instead just use the reference to those values. can also mark as const in this case to help make code understandable because it is only reading values and not changing
 
-    for(string& apple : vector){
+    for(string& apple : vector){ 
         cout<<apple;
     }
 
