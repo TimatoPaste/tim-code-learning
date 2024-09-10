@@ -26,14 +26,16 @@ int multiply(int numbers[], int n){
 
 int main(){
     //function overloading aka polymorphic functions
-    //multiple functions with the same name, but different signatures (cannot have the same amount of arguments). making a default value will cause an argument to be optional and could cause ambiguity conflict with another form of the function
+    //multiple functions with the same name, but different signatures (cannot have the same amount of arguments listed in the same order). making a default value will cause an argument to be optional and could cause ambiguity conflict with another form of the function
 
     int a = 10;
     int b = 20;
     int c = 30;
     int d[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    cout << multiply(a,b) << "\n";
-    cout << multiply(a,b,c) << "\n";
+    cout << multiply(a, b) << "\n";
+    cout << multiply(a, b, c) << "\n";
     cout << multiply(d, 10) << "\n";
+    cout << multiply(1.5, 1.5) << "\n";//will give us 1 because the int function with int parameters is used, converting the doubles to ints
+    cout << "'$'*3 = " << multiply('$',3) << "\n";//converts '$' character to its ascii table value in order to multiply
     return 0;
 }
