@@ -67,6 +67,6 @@ int main(){
     cout << "\n";
 
     vector<string> cities = {"New York", "Paris", "London"};
-    printVector(cities);   
+    printVector(cities);
     return 0;
 }

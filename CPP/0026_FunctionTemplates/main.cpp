@@ -11,7 +11,7 @@ void Swap(int& a, int& b){//works, but not for other types. use templates to gen
 }
 
 template <typename T>// template <typename name_referring_to_any_type> class and typename are interchangeable keywords for this use case
-
+//only works for the one function below it
 void Swap(T& a, T& b){// using template here instead of the types
     T temp = a;
     a = b;
